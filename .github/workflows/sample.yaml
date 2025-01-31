@@ -1,0 +1,27 @@
+name: Auto Workflow with Manual Approval
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  auto-part:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run automatic steps
+        run: echo "Automatic steps completed."
+
+  manual-approval:
+    needs: auto-part
+    runs-on: ubuntu-latest
+    environment: manual-approval # 手動承認が必要な環境
+    steps:
+      - name: Wait for manual approval
+        run: echo "Manual approval granted."
+
+  continue-after-approval:
+    needs: manual-approval
+    runs-on: ubuntu-latest
+    steps:
+      - name: Continue execution
+        run: echo "Workflow resumed after manual approval."
